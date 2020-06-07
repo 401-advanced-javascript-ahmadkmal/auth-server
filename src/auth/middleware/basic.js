@@ -10,6 +10,7 @@ headers:{
 module.exports =(req, res, next) => {
   // check if the client sent authorization headers
   // headers = {}
+  console.log('req.headers.authorization',req.headers.authorization);
   if (!req.headers.authorization) {
     next('Invalid Login');
   } else {

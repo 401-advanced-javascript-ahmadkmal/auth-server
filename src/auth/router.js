@@ -11,6 +11,7 @@ router.get('/users',valid, usersHandler);
 
 
 function signupHandler(req, res,next)  {
+  console.log('signupHandler');
   users
     .create(req.body)
     .then((user) => {
@@ -28,6 +29,7 @@ function signupHandler(req, res,next)  {
 }
 
 function signinHandler(req, res,next)  {
+  console.log('signinHandler');
   res.json({ token: req.token });
 }
 
