@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/401-advanced-javascript-ahmadkmal/auth-server#readme",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "base-64": "^0.1.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "js-base64": "^2.5.2",

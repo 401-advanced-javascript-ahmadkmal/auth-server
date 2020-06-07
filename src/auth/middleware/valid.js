@@ -1,5 +1,5 @@
 const base64 = require('base-64');
-const users = require('../ models/ users-model');
+const users = require('../models/users-model');
 
 /*
 headers:{
@@ -7,7 +7,7 @@ headers:{
 }
 */
 // this is used for signin
-module.exports = (req, res, next) => {
+module.exports =(req, res, next) => {
   // check if the client sent authorization headers
   // headers = {}
   if (!req.headers.authorization) {
@@ -21,8 +21,15 @@ module.exports = (req, res, next) => {
     users
       .authenticate(user, pass)
       .then((validUser) => {
-        req.token = users.generateToken(validUser);
-        next();
+        console.log(validUser);
+        if(validUser){
+          console.log('valid');
+          next();
+        }else{
+          console.log('unvalid');
+          next('invalid authentication');
+        }
+        
       })
       .catch((err) => next(err));
   }
