@@ -4,11 +4,12 @@ const router = express.Router();
 const users = require('./models/users-model');
 const basic = require('./middleware/basic.js');
 const valid = require('./middleware/valid');
+const oauth = require('./middleware/oauth');
 
 router.post('/signup', signupHandler);
 router.post('/signin',basic, signinHandler);
 router.get('/users',valid, usersHandler);
-
+router.get('/oauth',oauth, aouthHandler);
 
 function signupHandler(req, res,next)  {
   console.log('signupHandler');
@@ -40,6 +41,11 @@ async function usersHandler(req, res, next) {
   res.json(allUseres);
 }
 
+async function aouthHandler(req, res, next) {
+  console.log('inside aouth');
+  
+  res.json({ token:req.token });
+}
 
 
 module.exports = router;

@@ -8,7 +8,7 @@ const route = require('./auth/router');
 app.use(express.json()); //body-parser to add body to the req
 
 
-
+app.use(express.static('./public'));
 app.use('', route);
 
 
