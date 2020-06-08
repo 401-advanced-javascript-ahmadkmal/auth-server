@@ -48,7 +48,9 @@ async function exchangeCodeForToken(code) {
 async function getRemoteUserInfo(token) {
   const userResponse = await superagent
     .get(remoteAPI)
-    .set('Authorization', `token ${token}`);
+    .set('Authorization', `token ${token}`)
+    .set('user-agent', 'express-app');
+
   const user = userResponse.body;
   return user;
 }
