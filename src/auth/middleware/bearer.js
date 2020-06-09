@@ -14,12 +14,16 @@ module.exports = async (req, res, next) => {
     // "Bearer kansdlkasndkasndslakdn" => ["Bearer","kansdlkasndkasndslakdn"]
     const [auth, token] = req.headers.authorization.split(' ');
     console.log('TOKEN in bearer ------->', token);
+    console.log('auth in bearer ------->', auth);
     switch (auth) {
     case 'Bearer':
       try{
+        console.log('case bearer');
         req.user = await users.authenticateToken(token);
+        console.log('bearer',req.user);
       }catch(e){
-        next(e.message);
+        console.log('error on bearer');
+        next(e);
       }
       next();
       break;

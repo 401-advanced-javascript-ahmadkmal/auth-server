@@ -1,4 +1,4 @@
-# LAB - Class 12 
+# LAB - Class 13
 
 ## Project: auth-server
 
@@ -14,7 +14,7 @@
 
 ### Setup
 
-colne the repo
+clone the repo
 
 #### `.env` requirements (where applicable)
 

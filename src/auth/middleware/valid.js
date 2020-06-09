@@ -22,6 +22,7 @@ module.exports =(req, res, next) => {
       .authenticate(user, pass)
       .then((validUser) => {
         console.log(validUser);
+        // req.user=validUser;
         if(validUser){
           console.log('valid');
           next();

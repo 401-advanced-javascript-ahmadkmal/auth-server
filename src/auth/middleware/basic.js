@@ -22,14 +22,16 @@ module.exports =(req, res, next) => {
     users
       .authenticate(user, pass)
       .then((validUser) => {
-        console.log('validUser',validUser);
-        return users.generateToken(validUser);
-        
-      }).then(data=>{
-        req.token = data;
-        console.log('req.token',req.token);
+        console.log('validUser',validUser[0]);
+        // return users.generateToken(validUser);
+        req.user=validUser[0];
         next();
       })
+      // .then(data=>{
+      //   req.token = data;
+      //   console.log('req.token',req.token);
+      //   next();
+      // })
       .catch((err) => next(err));
   }
 };

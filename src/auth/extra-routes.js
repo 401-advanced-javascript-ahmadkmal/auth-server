@@ -7,7 +7,7 @@ const bearer = require('./middleware/bearer');
 
 extraRouter.get('/secret',bearer, bearerHandler);
 
-async function bearerHandler(req, res, next) {
+function bearerHandler(req, res, next) {
   console.log('inside bearer');
     
   res.json({ bearer:'valid',user:req.user });

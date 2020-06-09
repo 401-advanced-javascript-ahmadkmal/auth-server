@@ -5,25 +5,33 @@ const users = require('./models/users-model');
 const basic = require('./middleware/basic.js');
 const valid = require('./middleware/valid');
 const oauth = require('./middleware/oauth');
-
+const token = require('./middleware/token');
 router.post('/signup', signupHandler);
-router.post('/signin',basic, signinHandler);
+router.post('/signin',basic,token, signinHandler);
 router.get('/users',valid, usersHandler);
-router.get('/oauth',oauth, aouthHandler);
+router.get('/oauth',oauth,token, aouthHandler);
 
-function signupHandler(req, res,next)  {
+function signupHandler (req, res,next)  {
   console.log('signupHandler');
   users
     .create(req.body)
     .then((user) => {
-      console.log('this is user afer sign up',user);
+      console.log('this is user after sign up',user);
       const token = users.generateToken(user);
+      // req.user =await users.update(req.user._id,{token:req.token});
       // console.log('token',token);
+      req.user=user;
       return token;
 
     }).then(token=>{
       console.log('token',token);
-      res.json({ token }); // => {token:aklndkalsndalksnd}
+      req.token=token;
+      // users.update(req.user._id,{token:req.token});
+      return users.update(req.user._id,{token:req.token});
+    }).then((userUpdate)=>{
+      console.log('userUpdated',userUpdate);
+      req.user = userUpdate;
+      res.json({ token:req.token }); // => {token:aklndkalsndalksnd}
     })
     .catch((err) => next(err));
   // res.status(403).send(err.message
@@ -44,7 +52,7 @@ async function usersHandler(req, res, next) {
 async function aouthHandler(req, res, next) {
   console.log('inside aouth');
   
-  res.json({ token:req.token });
+  res.json({ token:req.token});
 }
 
 

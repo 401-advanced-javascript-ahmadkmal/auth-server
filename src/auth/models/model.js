@@ -41,7 +41,7 @@ class Model {
     return allUsers;
   }
   async  generateToken(user){
-    const token = await jwt.sign({ username: user.username }, SECRET,{expiresIn: 15});
+    const token = await jwt.sign({ username: user.username,_id: user._id }, SECRET,{expiresIn: '15m'});
     return token;
   }
   async  authenticate(user, pass) {
@@ -76,9 +76,16 @@ class Model {
     try {
       const tokenObject = await jwt.verify(token, SECRET);
       // tokenObject = {username:"mahmoud",iat:91223238}
-      const db= await this.schema.find({ username: tokenObject.username } );
+      const db= await this.schema.find({ _id: tokenObject._id } );
       if (db.length) {
-        return Promise.resolve(tokenObject);
+        console.log('authenticateToken function there is data in db');
+        console.log('db.token',db[0].token);
+        console.log('received token',token);
+        if(db[0].token===token){
+          return Promise.resolve(tokenObject);
+        }
+        console.log('token inside bd different than received');
+        return Promise.reject('session end for this token');  
       } else {
         return Promise.reject('User is not found!');
       }

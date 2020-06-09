@@ -27,8 +27,8 @@ module.exports = async (req, res, next) => {
     const user1 = await getUser1(req.body);
     console.log('after getuser',user1);
     req.user = user1;
-    req.token = await users.generateToken(user1);
-    console.log('[user, token]',req.token);
+    // req.token = await users.generateToken(user1);
+    // console.log('[user, token]',req.token);
     next();
   } catch (err) {
     next(err.message);
