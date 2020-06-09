@@ -25,8 +25,8 @@ function signupHandler(req, res,next)  {
       console.log('token',token);
       res.json({ token }); // => {token:aklndkalsndalksnd}
     })
-    .catch((err) => res.status(403).send(err.message));
-    
+    .catch((err) => next(err));
+  // res.status(403).send(err.message
 }
 
 function signinHandler(req, res,next)  {

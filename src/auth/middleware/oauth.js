@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
       password: 'aouthPasswOrd'};
     
     const user1 = await getUser1(req.body);
-    console.log('with reham',user1);
+    console.log('after getuser',user1);
     req.user = user1;
     req.token = await users.generateToken(user1);
     console.log('[user, token]',req.token);
@@ -55,7 +55,13 @@ async function getRemoteUserInfo(token) {
   return user;
 }
 async function getUser1(remoteUser) {
-  let userRec =await users.create(remoteUser);
+  try{
+    let userRec =await users.create(remoteUser);
+    
+    return userRec;
+  }catch(e){
+    Promise.reject(e.message);
+  }
   // const token = await users.generateToken(userRec);
   
 
@@ -77,5 +83,5 @@ async function getUser1(remoteUser) {
   //   .catch((err) => console.log('already exist',err.message));
   // console.log('[userRec,tok]');
   // console.log('[userRec,tok]',[userRec,token]);
-  return userRec;
+  
 }

@@ -23,6 +23,7 @@ class Model {
       console.log('record after hash',newRecord);
       return await newRecord.save();
     }
+    console.log('rejected');
     return Promise.reject('this user is already exist'); // ==>.catch
   }
   update(_id, record) {
@@ -40,12 +41,12 @@ class Model {
     return allUsers;
   }
   async  generateToken(user){
-    const token = await jwt.sign({ username: user.username }, SECRET);
+    const token = await jwt.sign({ username: user.username }, SECRET,{expiresIn: 15});
     return token;
   }
   async  authenticate(user, pass) {
     let userInfo = await this.schema.find({username : user});
-    console.log('userinfo inside authentication :',userInfo);
+    console.log('userInfo inside authentication :',userInfo);
     try{
       const valid = await bcrypt.compare(pass, userInfo[0].password);
       console.log('valid or not :',valid);
@@ -55,6 +56,35 @@ class Model {
     }
   
   
+  }
+  // async authenticateToken (token) {
+  //   // akjsndlaksnd.34naliendiasnd.3nksabndfw334ng
+  //   try {
+  //     const tokenObject = await jwt.verify(token, SECRET);
+  //     // tokenObject = {username:"mahmoud",iat:91223238}
+
+  //     if (db[tokenObject.username]) {
+  //       return Promise.resolve(tokenObject);
+  //     } else {
+  //       return Promise.reject('User is not found!');
+  //     }
+  //   } catch (e) {
+  //     return Promise.reject(e.message);
+  //   }
+  // }
+  async  authenticateToken (token) {
+    try {
+      const tokenObject = await jwt.verify(token, SECRET);
+      // tokenObject = {username:"mahmoud",iat:91223238}
+      const db= await this.schema.find({ username: tokenObject.username } );
+      if (db.length) {
+        return Promise.resolve(tokenObject);
+      } else {
+        return Promise.reject('User is not found!');
+      }
+    } catch (e) {
+      return Promise.reject(e.message);
+    }
   }
 }
 
