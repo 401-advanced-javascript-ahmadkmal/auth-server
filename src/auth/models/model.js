@@ -41,7 +41,7 @@ class Model {
     return allUsers;
   }
   async  generateToken(user){
-    const token = await jwt.sign({ username: user.username,_id: user._id }, SECRET,{expiresIn: '15m'});
+    const token = await jwt.sign({ username: user.username,_id: user._id,role:user.role }, SECRET,{expiresIn: '15m'});
     return token;
   }
   async  authenticate(user, pass) {
